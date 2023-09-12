@@ -4,9 +4,10 @@ import {Auth,provider} from "../../utils/Firebase";
 import {signInWithEmailAndPassword, signInWithPopup} from "firebase/auth"
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+
 const SignIn = () => {
-    const navigate=useNavigate();
-    const [loading,setLoading]=useState(false);
+  const navigate=useNavigate();
+  const [loading,setLoading]=useState(false);
   const [emailError, setEmailError] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -20,6 +21,8 @@ const SignIn = () => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return emailRegex.test(email);
   };
+
+
   const SignInwithGoogle = () => {
     setLoading(true);
     signInWithPopup(Auth, provider)
@@ -151,6 +154,7 @@ const SignIn = () => {
          font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
          onClick={SignInwithGoogle}
          >
+          <img src="google.png" className='h-3 w-3' alt='googleLogo' />
           {loading ? 'Loading...' : 'Sign In with Google'}</button>
       </div>
       <ToastContainer

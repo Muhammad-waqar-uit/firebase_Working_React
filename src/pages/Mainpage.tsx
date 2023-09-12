@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import {Auth} from "../../utils/Firebase";
+import {Auth,messaging} from "../../utils/Firebase";
 import { signOut } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom'
+import { getToken } from 'firebase/messaging';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 export const Mainpage = () => {
   const [Signin,setSignin]=useState(true);
   const navigate=useNavigate();
@@ -13,6 +15,24 @@ export const Mainpage = () => {
     });
     ;
   }
+
+  async function requestPermission(){
+    const permission=await Notification.requestPermission();
+    if (permission==="granted"){
+      //generate token
+     const token=await getToken(messaging,{vapidKey:"BMWjUaBizMjnrLe4zouXi-X53rIBVTOE3wxKB54Z2qpH-8B2mT4vsJIAdSxc_Lp4MtTvDCnmwsEKbSRRIYOD3Lg"})
+     localStorage.setItem("Token",token);
+     console.log("Token get",token);
+    }else if(permission==="denied"){
+      alert("Permission Denied You wont get notified!");
+    }
+  }
+
+
+  useEffect(()=>{
+  requestPermission();
+  },[])
+
   return (
     <>
     <div className='flex flex-row justify-around items-center p-5'>
